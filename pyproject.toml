@@ -1,0 +1,12 @@
+[project]
+name = "amhe"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "coco-experiment>=2.8.1",
+    "cocopp>=2.6.4",
+    "numpy>=1.21.6",
+    "scipy>=1.15.2",
+]
