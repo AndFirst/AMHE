@@ -44,6 +44,9 @@ class MAES:
             * (self.mu_eff - 2 + 1 / self.mu_eff)
             / ((self.dim + 2) ** 2 + self.mu_eff),
         )
+        self.damps = (
+            1 + 2 * max(0, np.sqrt((self.mu_eff - 1) / (self.dim + 1)) - 1) + self.cs
+        )
 
         # Evolution path
         self.ps = np.zeros(self.dim)
@@ -101,8 +104,9 @@ class MAES:
         self.M = np.dot(self.M, part1 + part2 + part3)
 
         # Update step size
-        self.sigma *= np.exp((self.cs / 2) * (np.sum(self.ps**2) / self.dim - 1))
-
+        self.sigma *= np.exp(
+            (self.cs / self.damps) * (np.linalg.norm(self.ps) / np.sqrt(self.dim) - 1))
+        
         self.iteration += 1
 
     def run(self, max_iterations=1000, fitness_threshold=-np.inf):

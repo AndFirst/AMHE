@@ -67,6 +67,9 @@ class MAES_IPOP:
             * (self.mu_eff - 2 + 1 / self.mu_eff)
             / ((self.dim + 2) ** 2 + self.mu_eff),
         )
+        self.damps = (
+            1 + 2 * max(0, np.sqrt((self.mu_eff - 1) / (self.dim + 1)) - 1) + self.cs
+        )
 
         # Reset algorithm state
         self.mean = self.initial_mean.copy()
@@ -134,7 +137,8 @@ class MAES_IPOP:
         self.M = np.dot(self.M, part1 + part2 + part3)
 
         # Update step size
-        self.sigma *= np.exp((self.cs / 2) * (np.sum(self.ps**2) / self.dim - 1))
+        self.sigma *= np.exp(
+            (self.cs / self.damps) * (np.linalg.norm(self.ps) / np.sqrt(self.dim) - 1))
 
         self.iteration += 1
 
