@@ -1,7 +1,9 @@
 import numpy as np
 
+from optimizer import Optimizer
 
-class MAES:
+
+class MAES(Optimizer):
     def __init__(
         self,
         objective_function,
@@ -105,8 +107,9 @@ class MAES:
 
         # Update step size
         self.sigma *= np.exp(
-            (self.cs / self.damps) * (np.linalg.norm(self.ps) / np.sqrt(self.dim) - 1))
-        
+            (self.cs / self.damps) * (np.linalg.norm(self.ps) / np.sqrt(self.dim) - 1)
+        )
+
         self.iteration += 1
 
     def run(self, max_iterations=1000, fitness_threshold=-np.inf):

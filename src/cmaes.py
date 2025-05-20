@@ -1,7 +1,9 @@
 import numpy as np
 
+from optimizer import Optimizer
 
-class CMAES:
+
+class CMAES(Optimizer):
     def __init__(
         self,
         objective_function,
