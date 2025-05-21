@@ -5,13 +5,13 @@ import cocoex
 import cocopp
 import numpy as np
 
-from cmaes import CMAES
-from maes import MAES
+from cmaes.cmaes import CMAES
+from maes.maes import BASE_MAES
 from maes_ipop import MAES_IPOP
 
 
 def main(args):
-    optimizers = {"maes": MAES, "maes_ipop": MAES_IPOP, "cmaes": CMAES}
+    optimizers = {"maes": BASE_MAES, "maes_ipop": MAES_IPOP, "cmaes": CMAES}
 
     suite_name = "bbob"
     budget_multiplier = 20
