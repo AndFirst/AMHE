@@ -1,6 +1,6 @@
 import numpy as np
 
-from interfaces.optimizerWrapper import OptimizerWrapper
+from interfaces.OptimizerWrapper import OptimizerWrapper
 
 class BudgetIPOP(OptimizerWrapper):
     def __init__(self, optimizer_class, objective_function,
@@ -66,7 +66,7 @@ class BudgetIPOP(OptimizerWrapper):
     def run(self, max_iterations=1000, fitness_threshold=-np.inf):
         for _ in range(max_iterations):
             solutions, z = self.optimizer.ask()
-            fitnesses = np.array([self.optimizer.f(s) for s in solutions])
+            fitnesses = np.array([self.f(s) for s in solutions])
             self.eval_counter += len(fitnesses)
             self.optimizer.tell(solutions, z, fitnesses)
 

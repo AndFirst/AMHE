@@ -1,6 +1,6 @@
 import numpy as np
 
-from interfaces.optimizer import Optimizer
+from interfaces.Optimizer import Optimizer
 
 class MAES(Optimizer):
     def __init__(

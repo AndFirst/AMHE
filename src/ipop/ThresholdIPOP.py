@@ -1,6 +1,8 @@
 import numpy as np
 
-class ThresholdIPOP:
+from interfaces.OptimizerWrapper import OptimizerWrapper
+
+class ThresholdIPOP(OptimizerWrapper):
     def __init__(self, optimizer_class, objective_function,
                  initial_mean, initial_sigma,
                  mean_range=None, sigma_range=None,
@@ -69,7 +71,7 @@ class ThresholdIPOP:
     def run(self, max_iterations=1000, fitness_threshold=-np.inf):
         for _ in range(max_iterations):
             solutions, z = self.optimizer.ask()
-            fitnesses = np.array([self.optimizer.f(s) for s in solutions])
+            fitnesses = np.array([self.f(s) for s in solutions])
             self.optimizer.tell(solutions, z, fitnesses)
 
             self.recent_fitness.append(self.optimizer.best_fitness)

@@ -1,7 +1,6 @@
 import numpy as np
 
-from interfaces.optimizerWrapper import OptimizerWrapper
-
+from interfaces.OptimizerWrapper import OptimizerWrapper
 
 class StagnationIPOP(OptimizerWrapper):
     def __init__(self, optimizer_class, objective_function,
@@ -69,7 +68,7 @@ class StagnationIPOP(OptimizerWrapper):
 
         for _ in range(max_iterations):
             solutions, z = self.optimizer.ask()
-            fitnesses = np.array([self.optimizer.f(s) for s in solutions])
+            fitnesses = np.array([self.f(s) for s in solutions])
             self.optimizer.tell(solutions, z, fitnesses)
 
             if self.optimizer.best_fitness < best_fitness:

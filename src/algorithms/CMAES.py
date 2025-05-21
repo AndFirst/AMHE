@@ -1,6 +1,6 @@
 import numpy as np
 
-from interfaces.optimizer import Optimizer
+from interfaces.Optimizer import Optimizer
 
 class CMAES(Optimizer):
     def __init__(
@@ -71,7 +71,7 @@ class CMAES(Optimizer):
 
         return samples, z
 
-    def tell(self, z, solutions, fitnesses):
+    def tell(self, solutions, z, fitnesses):
         """Update CMA-ES parameters based on evaluated solutions."""
         # Sort solutions by fitness
         indices = np.argsort(fitnesses)
