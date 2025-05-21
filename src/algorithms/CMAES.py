@@ -1,12 +1,10 @@
 import numpy as np
 
-from optimizer import Optimizer
-
+from interfaces.Optimizer import Optimizer
 
 class CMAES(Optimizer):
     def __init__(
         self,
-        objective_function,
         initial_mean,
         initial_sigma,
         population_size=None,
@@ -15,13 +13,11 @@ class CMAES(Optimizer):
         """Initialize CMA-ES algorithm.
 
         Args:
-            objective_function: Function to minimize, takes numpy array as input
             initial_mean: Initial mean vector (numpy array)
             initial_sigma: Initial step size (float)
             population_size: Number of samples per generation (optional)
             dim: Problem dimension (optional, inferred from initial_mean if not provided)
         """
-        self.f = objective_function
         self.mean = np.array(initial_mean)
         self.sigma = initial_sigma
         self.dim = dim if dim is not None else len(initial_mean)
@@ -73,9 +69,9 @@ class CMAES(Optimizer):
         y = z @ np.diag(self.D) @ self.B.T
         samples = self.mean + self.sigma * y
 
-        return samples
+        return samples, z
 
-    def tell(self, solutions, fitnesses):
+    def tell(self, solutions, z, fitnesses):
         """Update CMA-ES parameters based on evaluated solutions."""
         # Sort solutions by fitness
         indices = np.argsort(fitnesses)
@@ -140,15 +136,3 @@ class CMAES(Optimizer):
             pass  # Keep old B and D if decomposition fails
 
         self.iteration += 1
-
-    def run(self, max_iterations=1000, fitness_threshold=-np.inf):
-        """Run optimization until max iterations or fitness threshold is reached."""
-        for _ in range(max_iterations):
-            solutions = self.ask()
-            fitnesses = np.array([self.f(s) for s in solutions])
-            self.tell(solutions, fitnesses)
-
-            if self.best_fitness <= fitness_threshold:
-                break
-
-        return self.best_solution, self.best_fitness
