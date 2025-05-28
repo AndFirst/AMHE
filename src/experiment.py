@@ -1,7 +1,6 @@
 import argparse
 import csv
 import os
-import shutil
 import time
 
 import cocoex
@@ -198,16 +197,12 @@ def main(args):
             csv_output_path = os.path.join("csv_results", f"{output_folder}.csv")
 
             observer = cocoex.Observer(suite_name, f"result_folder: {output_folder}")
-            repeater = cocoex.ExperimentRepeater(
-                budget_multiplier=0, max_sweeps=max_sweeps
-            )
             minimal_print = cocoex.utilities.MiniPrint()
 
-            for sweep in range(1, 6):
+            for sweep in range(1, max_sweeps + 1):
                 for problem in suite:
                     problem.observe_with(observer)
                     problem(problem.dimension * [0])
-                    repeater.track(problem)
 
                     best_solution, best_fitness, time_taken = run_single_experiment(
                         wrapper_class, wrapper_params, optimizer_class, problem, args.e
@@ -240,7 +235,7 @@ if __name__ == "__main__":
         description="Run optimization with various wrappers"
     )
     parser.add_argument(
-        "-e", type=int, help="Number of optimization iterations", default=10000
+        "-e", type=int, help="Number of optimization iterations", default=10
     )
     parser.add_argument("-s", type=int, help="Random seed", default=10000)
     args = parser.parse_args()
