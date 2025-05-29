@@ -58,7 +58,7 @@ def construct_output_folder(wrapper_name, optimizer_name, params):
     if wrapper_name == "dummy":
         return f"{optimizer_name}"
     postfix = "_".join(
-        [f"{v}" for k, v in params.items() if k not in ["name", "exclude_ranges"]]
+        [f"{v}" for k, v in params.items() if k not in ["name"]]
     )
     return f"{wrapper_name[0]}_{optimizer_name[0]}_{postfix}"
 
@@ -75,7 +75,7 @@ def append_result_to_csv(output_path, row_dict):
 
 def main(args):
     suite_name = "bbob"
-    max_sweeps = 5
+    max_sweeps = 3
 
     base_optimizers = {
         "maes": MAES,
@@ -235,7 +235,7 @@ if __name__ == "__main__":
         description="Run optimization with various wrappers"
     )
     parser.add_argument(
-        "-e", type=int, help="Number of optimization iterations", default=10
+        "-e", type=int, help="Number of optimization iterations", default=5000
     )
     parser.add_argument("-s", type=int, help="Random seed", default=10000)
     args = parser.parse_args()
