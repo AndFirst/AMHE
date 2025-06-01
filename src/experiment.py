@@ -227,7 +227,7 @@ def main(args):
 
                     append_result_to_csv(csv_output_path, result_row)
 
-    # cocopp.main(result_folders) # usun do tylko zapisywania wyników
+    cocopp.main(result_folders)
 
 
 if __name__ == "__main__":
